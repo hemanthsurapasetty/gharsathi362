@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+.cache/
+.env
+.env.*
+!.env.example
+backend/.env
+!backend/.env.example
+*.tsbuildinfo
+.DS_Store
+*.local

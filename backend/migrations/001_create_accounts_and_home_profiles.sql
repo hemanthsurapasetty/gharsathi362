@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS users (
+  id BIGSERIAL PRIMARY KEY,
+  full_name VARCHAR(120) NOT NULL,
+  email VARCHAR(254) NOT NULL UNIQUE,
+  password_hash VARCHAR(100) NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS home_profiles (
+  user_id BIGINT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+  city VARCHAR(120) NOT NULL,
+  plot_width_ft NUMERIC(9, 2) NOT NULL CHECK (plot_width_ft > 0 AND plot_width_ft <= 10000),
+  plot_length_ft NUMERIC(9, 2) NOT NULL CHECK (plot_length_ft > 0 AND plot_length_ft <= 10000),
+  built_up_area_sqft NUMERIC(12, 2) NOT NULL CHECK (built_up_area_sqft > 0 AND built_up_area_sqft <= 250000),
+  floors SMALLINT NOT NULL CHECK (floors BETWEEN 1 AND 5),
+  bedrooms SMALLINT NOT NULL CHECK (bedrooms BETWEEN 1 AND 8),
+  budget_inr BIGINT CHECK (budget_inr IS NULL OR budget_inr BETWEEN 100000 AND 1000000000),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
